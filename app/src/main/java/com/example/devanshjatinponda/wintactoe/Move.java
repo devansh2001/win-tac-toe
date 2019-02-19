@@ -25,4 +25,9 @@ public class Move {
     public void setCell(Button cell) {
         this.cell = cell;
     }
+
+    public boolean isValid() {
+        return cell.getText().equals("");
+    }
+
 }

@@ -8,10 +8,11 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button buttons[][];
     private int operated;
     private boolean humanTurn;
+    private Player currPlayer;
 
     private void clear() {
         for (int i = 0; i < 3; i++) {
@@ -20,12 +21,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private boolean isValid(Button button) {
-        return button.getText().equals("");
-    }
+
     private boolean isOver() {
         return operated != 9;
     }
+
     private boolean checkWon() {
         for (int i = 0; i < 3; i++) {
                 if (buttons[i][0].getText().equals(buttons[i][1].getText())
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button buttonArray[][] = {
                 {
-                        findViewById(R.id.button8),
-                        findViewById(R.id.button9),
-                        findViewById(R.id.button10)
+                        findViewById(R.id.button1),
+                        findViewById(R.id.button2),
+                        findViewById(R.id.button3)
                 },
                 {
                         findViewById(R.id.button4),
@@ -59,27 +59,40 @@ public class MainActivity extends AppCompatActivity {
                         findViewById(R.id.button6)
                 },
                 {
-                        findViewById(R.id.button),
-                        findViewById(R.id.button2),
-                        findViewById(R.id.button3)
+                        findViewById(R.id.button7),
+                        findViewById(R.id.button8),
+                        findViewById(R.id.button9)
                 }
         };
         this.buttons = buttonArray;
         clear();
 
-        Random random = new Random();
-        while (!isOver()) {
-            if (random.nextInt(10) < 5) {
-                humanTurn = true;
-            } else {
-                humanTurn = false;
-            }
-            if (humanTurn) {
-                humanPlay();
-            } else {
-                computerPlay();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttonArray[i][j].setOnClickListener(this);
             }
         }
+
+        Random random = new Random();
+        if (random.nextInt(10) < 5) {
+            currPlayer = Player.COMPUTER;
+        } else {
+            currPlayer = Player.HUMAN;
+        }
+        Toast.makeText(this, "Player: " + currPlayer, Toast.LENGTH_SHORT).show();
+
+//        while (!isOver()) {
+//            if (random.nextInt(10) < 5) {
+//                humanTurn = true;
+//            } else {
+//                humanTurn = false;
+//            }
+//            if (humanTurn) {
+//                humanPlay();
+//            } else {
+//                computerPlay();
+//            }
+//        }
     }
 
     private void humanPlay() {
@@ -88,5 +101,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void computerPlay() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button1:
+                Toast.makeText(MainActivity.this, "Button 1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button2:
+                Toast.makeText(MainActivity.this, "Button 2", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button3:
+                Toast.makeText(MainActivity.this, "Button 3", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button4:
+                Toast.makeText(MainActivity.this, "Button 4", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button5:
+                Toast.makeText(MainActivity.this, "Button 5", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button6:
+                Toast.makeText(MainActivity.this, "Button 6", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button7:
+                Toast.makeText(MainActivity.this, "Button 7", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button8:
+                Toast.makeText(MainActivity.this, "Button 8", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button9:
+                Toast.makeText(MainActivity.this, "Button 9", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                System.out.println("none");
+        }
+        Move move = new Move(currPlayer, (Button) findViewById(v.getId()));
+        if (move.isValid()) {
+            Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
+            move.getCell().setText("X");
+        }
     }
 }
