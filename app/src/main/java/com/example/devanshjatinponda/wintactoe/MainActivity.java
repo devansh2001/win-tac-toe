@@ -95,13 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
     }
 
-    private void humanPlay() {
-
-    }
-
-    private void computerPlay() {
-
-    }
+//    private void humanPlay() {
+//
+//    }
+//
+//    private void computerPlay() {
+//
+//    }
 
     @Override
     public void onClick(View v) {
@@ -136,10 +136,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 System.out.println("none");
         }
+
         Move move = new Move(currPlayer, (Button) findViewById(v.getId()));
         if (move.isValid()) {
             Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
             move.getCell().setText("X");
+            if (checkWon()) {
+                Toast.makeText(MainActivity.this, currPlayer + " wins!", Toast.LENGTH_SHORT).show();
+                // End game
+            } else {
+                currPlayer = currPlayer.invert();
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Invalid Cell", Toast.LENGTH_SHORT).show();
         }
     }
 }
