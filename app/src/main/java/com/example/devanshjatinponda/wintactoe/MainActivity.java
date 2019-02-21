@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttons[][];
     private int operated;
-    private boolean humanTurn;
     private Player currPlayer;
 
     private void clear() {
@@ -28,9 +27,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean checkWon() {
         for (int i = 0; i < 3; i++) {
-                if (buttons[i][0].getText().equals(buttons[i][1].getText())
-                        && buttons[i][0].getText().equals(buttons[i][2].getText())
-                        && !buttons[i][0].equals("")) {
+                if ((!buttons[i][0].equals(""))
+                        && buttons[i][0].getText().equals(buttons[i][1].getText())
+                        && buttons[i][0].getText().equals(buttons[i][2].getText())) {
+                    Toast.makeText(this, "" + buttons[i][0].getText().equals(""), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, buttons[0][0].getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "One" + i, Toast.LENGTH_SHORT).show();
                     return true;
                 }
         }
@@ -38,8 +40,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (buttons[0][i].getText().equals(buttons[1][i].getText())
                     && buttons[0][i].getText().equals(buttons[2][i].getText())
                     && !buttons[0][i].equals("")) {
+                Toast.makeText(this, "Two", Toast.LENGTH_SHORT).show();
                 return true;
             }
+        }
+        if (!buttons[0][0].getText().equals("")
+                && !buttons[1][1].getText().equals("")
+                && !buttons[2][2].getText().equals("")
+                && buttons[0][0].getText().equals(buttons[1][1].getText())
+                && buttons[0][0].getText().equals(buttons[2][2].getText())) {
+            Toast.makeText(this, "Three", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (!buttons[0][2].getText().equals("")
+                && !buttons[1][1].getText().equals("")
+                && !buttons[2][0].getText().equals("")
+                && buttons[0][2].getText().equals(buttons[1][1].getText())
+                && buttons[2][0].getText().equals(buttons[1][1].getText())) {
+            Toast.makeText(this, "Four", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return false;
     }
@@ -138,17 +157,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Move move = new Move(currPlayer, (Button) findViewById(v.getId()));
-        if (move.isValid()) {
-            Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
-            move.getCell().setText("X");
-            if (checkWon()) {
-                Toast.makeText(MainActivity.this, currPlayer + " wins!", Toast.LENGTH_SHORT).show();
-                // End game
+            if (move.isValid()) {
+                Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
+                move.getCell().setText("X");
+                if (checkWon()) {
+                    Toast.makeText(MainActivity.this, currPlayer + " wins!", Toast.LENGTH_SHORT).show();
+                    // End game
+                } else {
+                    currPlayer = currPlayer.invert();
+                    if (currPlayer == Player.COMPUTER) {
+                        // My logic
+                        Toast.makeText(this, "Sup", Toast.LENGTH_SHORT).show();
+                    }
+                    currPlayer = currPlayer.invert();
+                }
             } else {
-                currPlayer = currPlayer.invert();
+                Toast.makeText(MainActivity.this, "Invalid Cell", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(MainActivity.this, "Invalid Cell", Toast.LENGTH_SHORT).show();
-        }
     }
 }
