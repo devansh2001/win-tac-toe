@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if ((!buttons[i][0].equals(""))
                         && buttons[i][0].getText().equals(buttons[i][1].getText())
                         && buttons[i][0].getText().equals(buttons[i][2].getText())) {
-                    Toast.makeText(this, "" + buttons[i][0].getText().equals(""), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, buttons[0][0].getText(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "One" + i, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "One", Toast.LENGTH_SHORT).show();
                     return true;
                 }
         }
@@ -160,8 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (move.isValid()) {
                 Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
                 move.getCell().setText("X");
-                if (checkWon()) {
+                if (!checkWon()) {
                     Toast.makeText(MainActivity.this, currPlayer + " wins!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "OVERRRRR", Toast.LENGTH_SHORT).show();
                     // End game
                 } else {
                     currPlayer = currPlayer.invert();
